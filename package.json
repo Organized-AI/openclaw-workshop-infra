@@ -1,0 +1,22 @@
+{
+  "name": "organized-gateway",
+  "version": "0.1.0",
+  "description": "OpenClaw workshop gateway — CF Worker + Durable Objects + CF Queue",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:create": "wrangler d1 create oc_gateway_db",
+    "db:migrate": "wrangler d1 execute oc_gateway_db --file migrations/0001_initial.sql",
+    "queue:create": "wrangler queues create oc-messages && wrangler queues create oc-messages-dlq",
+    "r2:create": "wrangler r2 bucket create oc-exports"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241205.0",
+    "typescript": "^5.5.2",
+    "wrangler": "^3.78.12"
+  },
+  "dependencies": {
+    "hono": "^4.6.3"
+  }
+}

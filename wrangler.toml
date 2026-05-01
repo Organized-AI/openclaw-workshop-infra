@@ -1,0 +1,52 @@
+# wrangler.toml — organized-gateway
+# Cloudflare Account: 691fe25d377abac03627d6a88d3eeac9
+
+name              = "organized-gateway"
+main              = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# ── KV: identity + registration ──
+[[kv_namespaces]]
+binding = "GATEWAY_KV"
+id      = "104c355b4c504bc6a8fafd846034e35f"  # existing 'sessions' namespace
+
+# ── D1: durable records + prompt_logs ──
+[[d1_databases]]
+binding       = "OC_DB"
+database_name = "oc_gateway_db"
+database_id   = "<run: wrangler d1 create oc_gateway_db>"
+
+# ── CF Queue: producer binding ──
+[[queues.producers]]
+queue   = "oc-messages"
+binding = "OC_QUEUE"
+
+# ── CF Queue: consumer binding ──
+[[queues.consumers]]
+queue             = "oc-messages"
+max_batch_size    = 100
+max_batch_timeout = 5
+max_retries       = 3
+dead_letter_queue = "oc-messages-dlq"
+
+# ── Durable Objects ──
+[[durable_objects.bindings]]
+name       = "USER_DO"
+class_name = "UserSession"
+
+[[migrations]]
+tag                = "v1"
+new_sqlite_classes = ["UserSession"]
+
+# ── R2: breakaway export packages ──
+[[r2_buckets]]
+binding     = "OC_EXPORTS"
+bucket_name = "oc-exports"
+
+# ── Secrets (set via: wrangler secret put <NAME>) ──
+# WEBHOOK_SECRET    — Meta webhook verification token
+# OPENCLAW_URL      — Tailscale URL to claws-mac-mini (100.82.244.127)
+# META_ACCESS_TOKEN — WhatsApp Cloud API token
+# META_PHONE_ID     — WhatsApp Business phone number ID
+# ADMIN_PHONE       — Jordan's WhatsApp number (DLQ alerts)
+# ENCRYPTION_KEY    — 32-byte key for BYOK api_key encryption in DO
