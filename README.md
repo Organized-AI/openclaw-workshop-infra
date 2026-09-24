@@ -85,3 +85,7 @@ Register: [lu.ma/1l21y2zh](https://lu.ma/1l21y2zh)
 - Wiki: [wiki.organizedai.vip/openclaw](https://wiki.organizedai.vip/openclaw)
 - Harness wiki: [wiki.organizedai.vip/harness](https://wiki.organizedai.vip/harness)
 - Education: [guide.organizedai.vip/openclaw-education](https://guide.organizedai.vip/openclaw-education)
+
+---
+
+Maintained by Jordaaan Hill ([LinkedIn](https://www.linkedin.com/in/jordaaanhill)).
